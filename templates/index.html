@@ -4,11 +4,16 @@
     <title>My Dashboard</title>
   </head>
   <body>
-    <h1>Hello, {{ name }}!</h1>
-    <ul>
-      {% for item in items %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
+    <h1>My Dashboard</h1>
+
+    {% if github %}
+    <img src="{{ github.avatar_url }}" width="100" />
+    <h2>{{ github.name }} (@{{ github.login }})</h2>
+    <p>Followers: {{ github.followers }}</p>
+    <p>Following: {{ github.following }}</p>
+    <p>Public repos: {{ github.public_repos }}</p>
+    {% else %}
+    <p>Couldn't load GitHub data.</p>
+    {% endif %}
   </body>
 </html>
