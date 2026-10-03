@@ -12,11 +12,22 @@
     <p>Followers: {{ github.followers }}</p>
     <p>Following: {{ github.following }}</p>
     <p>Public repos: {{ github.public_repos }}</p>
+
     {% for repo in repos %}
     <h3><a href="{{ repo.html_url }}">{{ repo.name }}</a></h3>
     {{ repo.language }}
     <p>{{ repo.description }}</p>
-    {% endfor %} {% else %}
+    {% if count %}
+
+    <h2>Languages</h2>
+    <p>Most used: {{ count[0][0] }} ({{ count[0][1] }} repos)</p>
+    <ul>
+      {% for lang, num in count %}
+      <li>{{ lang }}: {{ num }}</li>
+      {% endfor %}
+    </ul>
+
+    {% endif %} {% endfor %} {% else %}
     <p>Couldn't load GitHub data.</p>
     {% endif %}
   </body>
