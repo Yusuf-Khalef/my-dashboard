@@ -12,11 +12,20 @@ def get_github_data(username):
         return response.json()
     return None
     
+def get_github_repos(username):
+    try:
+        response = requests.get(f"https://api.github.com/users/{username}/repos", timeout=5)
+    except requests.exceptions.RequestException:
+        return None
+    if response.status_code == 200:
+        return response.json()
+    return None
 
 @app.route('/')
 def home():
     github = get_github_data('Yusuf-Khalef')
-    return render_template('index.html', github=github)
+    repos = get_github_repos('Yusuf-Khalef')
+    return render_template('index.html', github=github, repos=repos)
 
 @app.route('/about')
 def about():

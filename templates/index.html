@@ -12,7 +12,11 @@
     <p>Followers: {{ github.followers }}</p>
     <p>Following: {{ github.following }}</p>
     <p>Public repos: {{ github.public_repos }}</p>
-    {% else %}
+    {% for repo in repos %}
+    <h3><a href="{{ repo.html_url }}">{{ repo.name }}</a></h3>
+    {{ repo.language }}
+    <p>{{ repo.description }}</p>
+    {% endfor %} {% else %}
     <p>Couldn't load GitHub data.</p>
     {% endif %}
   </body>
