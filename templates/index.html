@@ -6,11 +6,6 @@
   <body>
     <h1>My Dashboard</h1>
 
-    <form method="get">
-      <input type="text" name="city" placeholder="Enter a city" />
-      <button type="submit">Search</button>
-    </form>
-
     <!-- GitHub panel -->
     {% if github %}
     <img src="{{ github.avatar_url }}" width="100" />
@@ -44,6 +39,10 @@
 
     {% if weather %}
     <h2>Weather in {{ weather.city }}</h2>
+    <form method="get">
+      <input type="text" name="city" placeholder="Enter a city" />
+      <button type="submit">Search</button>
+    </form>
     <p>Temperature: {{ weather.temp }}°C</p>
     <p>Feels like: {{ weather.feels_like }}°C</p>
     <p>Description: {{ weather.description }}</p>
