@@ -53,6 +53,9 @@
       <article>
         <h2>Languages</h2>
         <p>Most used: {{ count[0][0] }} ({{ count[0][1] }} repos)</p>
+        <div style="max-width: 300px; margin: 0 auto">
+          <canvas id="langChart"></canvas>
+        </div>
         <ul>
           {% for lang, num in count %}
           <li>{{ lang }}: {{ num }}</li>
@@ -73,5 +76,20 @@
       </article>
       {% endif %}
     </main>
+    {% if count %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const labels = {{ count | map(attribute=0) | list | tojson }};
+      const values = {{ count | map(attribute=1) | list | tojson }};
+
+      new Chart(document.getElementById("langChart"), {
+        type: "doughnut",
+        data: {
+          labels: labels,
+          datasets: [{ data: values }],
+        },
+      });
+    </script>
+    {% endif %}
   </body>
 </html>
