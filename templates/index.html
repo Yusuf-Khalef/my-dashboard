@@ -2,53 +2,76 @@
 <html>
   <head>
     <title>My Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
   </head>
   <body>
-    <h1>My Dashboard</h1>
+    <main class="container">
+      <h1>My Dashboard</h1>
 
-    <!-- GitHub panel -->
-    {% if github %}
-    <img src="{{ github.avatar_url }}" width="100" />
-    <h2>{{ github.name }} (@{{ github.login }})</h2>
-    <p>Followers: {{ github.followers }}</p>
-    <p>Following: {{ github.following }}</p>
-    <p>Public repos: {{ github.public_repos }}</p>
+      <div class="grid">
+        <!-- GitHub panel -->
+        <article>
+          {% if github %}
+          <img
+            src="{{ github.avatar_url }}"
+            width="100"
+            style="border-radius: 50%"
+          />
+          <h2>{{ github.name }} (@{{ github.login }})</h2>
+          <p>Followers: {{ github.followers }}</p>
+          <p>Following: {{ github.following }}</p>
+          <p>Public repos: {{ github.public_repos }}</p>
+          {% else %}
+          <p>Couldn't load GitHub data.</p>
+          {% endif %}
+        </article>
 
-    <!-- Languages: once, outside the repo loop -->
-    {% if count %}
-    <h2>Languages</h2>
-    <p>Most used: {{ count[0][0] }} ({{ count[0][1] }} repos)</p>
-    <ul>
-      {% for lang, num in count %}
-      <li>{{ lang }}: {{ num }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+        <!-- Weather panel -->
+        <article>
+          <h2>Weather</h2>
+          <form method="get">
+            <input type="text" name="city" placeholder="Enter a city" />
+            <button type="submit">Search</button>
+          </form>
+          {% if weather %}
+          <h3>{{ weather.city }}</h3>
+          <p>Temperature: {{ weather.temp }}°C</p>
+          <p>Feels like: {{ weather.feels_like }}°C</p>
+          <p>Description: {{ weather.description }}</p>
+          <p>Humidity: {{ weather.humidity }}%</p>
+          {% else %}
+          <p>Couldn't load weather data. Please try again later.</p>
+          {% endif %}
+        </article>
+      </div>
 
-    <!-- Repos: this loop repeats for each repo -->
-    <h2>Repositories</h2>
-    {% for repo in repos %}
-    <h3><a href="{{ repo.html_url }}">{{ repo.name }}</a></h3>
-    <p>Language: {{ repo.language or "Not specified" }}</p>
-    <p>{{ repo.description or "No description" }}</p>
-    {% endfor %} {% else %}
-    <p>Couldn't load GitHub data.</p>
-    {% endif %}
+      <!-- Languages panel -->
+      {% if count %}
+      <article>
+        <h2>Languages</h2>
+        <p>Most used: {{ count[0][0] }} ({{ count[0][1] }} repos)</p>
+        <ul>
+          {% for lang, num in count %}
+          <li>{{ lang }}: {{ num }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endif %}
 
-    <!-- Weather panel -->
-
-    {% if weather %}
-    <h2>Weather in {{ weather.city }}</h2>
-    <form method="get">
-      <input type="text" name="city" placeholder="Enter a city" />
-      <button type="submit">Search</button>
-    </form>
-    <p>Temperature: {{ weather.temp }}°C</p>
-    <p>Feels like: {{ weather.feels_like }}°C</p>
-    <p>Description: {{ weather.description }}</p>
-    <p>Humidity: {{ weather.humidity }}%</p>
-    {% else %}
-    <p>Couldn't load weather data. Please try again later.</p>
-    {% endif %}
+      <!-- Repos panel -->
+      {% if repos %}
+      <article>
+        <h2>Repositories</h2>
+        {% for repo in repos %}
+        <h3><a href="{{ repo.html_url }}">{{ repo.name }}</a></h3>
+        <p>Language: {{ repo.language or "Not specified" }}</p>
+        <p>{{ repo.description or "No description" }}</p>
+        {% endfor %}
+      </article>
+      {% endif %}
+    </main>
   </body>
 </html>
